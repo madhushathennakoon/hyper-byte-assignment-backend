@@ -1,6 +1,5 @@
 const userModel = require("../model/userModel");
 const bcrypt = require("bcrypt");
-const validator = require("validator");
 const createToken = require("../helpers/jwt_tokens");
 const { signupSchema, signinSchema } = require("../helpers/validation_schema");
 
