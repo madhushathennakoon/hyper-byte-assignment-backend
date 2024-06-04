@@ -4,6 +4,7 @@ const {
   createRestaurantSchema,
   updateRestaurantSchema,
 } = require("../helpers/validation_schema");
+const { logger } = require("../helpers/logger");
 
 //Create new restaurant
 const createNewRestaurant = async (req, res) => {
@@ -19,7 +20,8 @@ const createNewRestaurant = async (req, res) => {
 
     res.status(201).json(newRestaurant);
   } catch (error) {
-    res.status(500).json({ message: error });
+    logger.error(error);
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -29,6 +31,7 @@ const getAllRestaurant = async (req, res) => {
     const allRestaurant = await restaurantModel.find().sort({ createdAt: -1 });
     res.status(200).json(allRestaurant);
   } catch (error) {
+    logger.error(error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -49,6 +52,7 @@ const updateRestaurant = async (req, res) => {
 
     res.status(200).json(updateRestaurant);
   } catch (error) {
+    logger.error(error);
     res.status(500).json({ error: error.message });
   }
 };

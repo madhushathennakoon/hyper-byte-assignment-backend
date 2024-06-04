@@ -2,6 +2,7 @@ const userModel = require("../model/userModel");
 const bcrypt = require("bcrypt");
 const createToken = require("../helpers/jwt_tokens");
 const { signupSchema, signinSchema } = require("../helpers/validation_schema");
+const { logger } = require("../helpers/logger");
 
 //Signup User
 const signupUser = async (req, res) => {
@@ -34,6 +35,7 @@ const signupUser = async (req, res) => {
 
     res.status(201).json({ email: user.email, token });
   } catch (error) {
+    logger.error(error);
     res.status(500).json({ message: error });
   }
 };
@@ -65,6 +67,7 @@ const signinUser = async (req, res) => {
 
     res.status(200).json({ email: user.email, token });
   } catch (error) {
+    logger.error(error);
     res.status(500).json({ message: error });
   }
 };
