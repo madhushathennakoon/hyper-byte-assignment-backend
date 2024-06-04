@@ -16,9 +16,9 @@ const signupUser = async (req, res) => {
     //Check email
     const exist = await userModel.findOne({ email: validateBody.email });
     if (exist) {
-      return res.status(400).json({
+      return res.status(409).json({
         status: "fail",
-        message: "Email already in use",
+        message: "Email already exists",
       });
     }
 
@@ -32,7 +32,7 @@ const signupUser = async (req, res) => {
     //Create a token
     const token = createToken(user._id);
 
-    res.status(200).json({ email: user.email, token });
+    res.status(201).json({ email: user.email, token });
   } catch (error) {
     res.status(500).json({ message: error });
   }
@@ -46,17 +46,17 @@ const signinUser = async (req, res) => {
 
     const user = await userModel.findOne({ email: validateBody.email });
     if (!user) {
-      return res.status(400).json({
+      return res.status(404).json({
         status: "fail",
-        message: "Incorrect email",
+        message: "User not found",
       });
     }
 
     const match = await bcrypt.compare(validateBody.password, user.password);
     if (!match) {
-      return res.status(400).json({
+      return res.status(401).json({
         status: "fail",
-        message: "Incorrect password",
+        message: "Invalid password",
       });
     }
 
@@ -65,8 +65,7 @@ const signinUser = async (req, res) => {
 
     res.status(200).json({ email: user.email, token });
   } catch (error) {
-    logger.error(error);
-    res.status(400).json({ message: error });
+    res.status(500).json({ message: error });
   }
 };
 

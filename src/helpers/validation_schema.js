@@ -51,10 +51,11 @@ const createRestaurantSchema = Joi.object({
     "string.alphanum":
       "User name should only contain alphanumeric characters.(letters and numbers)",
   }),
-  address: Joi.string().max(50).required().messages({
+  address: Joi.string().min(3).max(50).required().messages({
     "any.required": "Address is required.",
     "string.empty": "Address cannot be empty.",
     "string.max": "Address should not exceed 50 characters.",
+    "string.min": "Address should be at least 3 characters long.",
   }),
   telephone: Joi.string()
     .pattern(new RegExp("^(\\+94|0)[1-9][0-9]{8}$"))

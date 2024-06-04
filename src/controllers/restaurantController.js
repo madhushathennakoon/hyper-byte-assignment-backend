@@ -17,9 +17,9 @@ const createNewRestaurant = async (req, res) => {
       telephone: validateBody.telephone,
     });
 
-    res.status(200).json(newRestaurant);
+    res.status(201).json(newRestaurant);
   } catch (error) {
-    res.status(400).json({ message: error });
+    res.status(500).json({ message: error });
   }
 };
 
@@ -29,7 +29,7 @@ const getAllRestaurant = async (req, res) => {
     const allRestaurant = await restaurantModel.find().sort({ createdAt: -1 });
     res.status(200).json(allRestaurant);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -49,7 +49,7 @@ const updateRestaurant = async (req, res) => {
 
     res.status(200).json(updateRestaurant);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -72,7 +72,7 @@ const deleteRestaurants = async (req, res) => {
     res.status(200).json(deleteRestaurant);
   } catch (error) {
     logger.error(error);
-    res.status(400).json({ error: "No such restaurant" });
+    res.status(500).json({ error: "No such restaurant" });
   }
 };
 
@@ -93,7 +93,7 @@ const getSingleRestaurant = async (req, res) => {
     res.status(200).json(singleRestaurant);
   } catch (error) {
     logger.error(error);
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
